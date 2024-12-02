@@ -1,10 +1,10 @@
 env:
-    credentials: "ENCRYPTED[!cfbfe2e2980e80f795fc4936a65a518896b7b9ef8ce8c95570cc5dafe8109b16a18f0217f1bb8bd540b427b3455bb634!]"
-    rcloneconfig: "ENCRYPTED[!3ee6218c926c3250e961472c7f288d0f611fead4b53b7eee0c011c55af3766d98250de5042955124400de970ea829fe7!]"
-    tokentl: "ENCRYPTED[!4e08bfb6719cf11eebdf252ad46eaf68fac38aa7651339a3b02a6722e3abfe339067b751956226e858af133a0626305c!]"
-    idtl: "ENCRYPTED[!ada2145d95983d2e2a41ae80fa27318da5a8980170db84992d9235c4dbcd190374eeeb76f47c815ab2ed55ddd087637d!]"
-    lunch: lunch rr_sagit-userdebug
-    make: make bacon
+    credentials: "ENCRYPTED[4f2ed4bc06ea9b13426d3c2b0a32d822540042f7e18eab0ab30efe538432dd1b2d06b90466747f0fd2d80bdd34375f3b]"
+    rcloneconfig: "ENCRYPTED[ec7734e8b495e026a95409b8984a158aaa5c9db4dc96b5eca607b136703832e9a5de80b7649074444bd2ec12ebd095ff]"
+    tokentl: "ENCRYPTED[4831f48cbdfe4eb5e1638bab74422e6a4ae07d1daf9943f5e29d43687bbe9ee06751d71edb1ae64b6cd9f981181485db]"
+    idtl: "ENCRYPTED[e0f6a035b67c0c702245d7f49ae3a29c7cd548c1ec498ea7e323928954e7bb7e915a1d314e7ae812005fa77718c1827d]"
+    lunch: lunch rr_X00TD-user
+    make: mka bacon
 
 task:
   name: "Setting Up, Syncing, Building and Uploading..."
@@ -18,12 +18,12 @@ task:
        - export DEBIAN_FRONTEND=noninteractive
        - mkdir -p ~/.config/rclone
        - echo "$rcloneconfig" > ~/.rclone.conf
-       - git config --global user.name "denysaja"
-       - git config --global user.email "deny_saja@hotmail.com"
+       - git config --global user.name "texascake"
+       - git config --global user.email "budalblimbing@gmail.com"
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - mkdir -p ~/ccache
-       - rclone copy sagit:rr/ccache.tar.gz ~/ -P
+       - rclone copy Gdrive:rr/ccache.tar.gz ~/ -P
        - cd ~/
        - time tar xf ccache.tar.gz
        - cd ~/
@@ -35,43 +35,29 @@ task:
       - ./w.sh
 
   Sync_script:
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Start sync RR Source"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🔄 Start sync RROS Source. . ."
       - mkdir -p ~/rom
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init -q --no-repo-verify --depth=1 -u https://github.com/ResurrectionRemix-Revived/manifest.git -b Q -g default,-mips,-darwin,-notdefault
-      - git clone --depth 1 https://github.com/deny2311/local_manifest.git -b rr-sagit .repo/local_manifests
-      - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
-#      - sed -i 's|ssh://git@github.com|https://github.com|g' .repo/manifests/snippets/qassa.xml
-#      - repoo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 --fail-fast
-      - repo sync -c --force-sync --no-clone-bundle --no-tags -j8
-#      - sed -i 's| -u||g' vendor/qassa/config/branding.mk
-      - cd external/chromium-webview/prebuilt/arm && git lfs pull
-      - cd ~/rom
-      - cd external/chromium-webview/prebuilt/arm64 && git lfs pull
-      - cd ~/rom
-      - cd external/chromium-webview/prebuilt/x86 && git lfs pull
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
+      - repo init --depth=1 --no-repo-verify -u https://github.com/ResurrectionRemix/platform_manifest.git -b Q -g default,-mips,-darwin,-notdefault
+      - git clone --depth 1 https://github.com/strongreasons/local_manifest.git -b rr .repo/local_manifests
+      - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
+      - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Sync Completed!"
 
   Build_script:
-      - export BUILD_USERNAME="deny2311"
-      - export BUILD_HOSTNAME="deny"
-      - export KBUILD_BUILD_USER="deny2311"
-      - export KBUILD_BUILD_HOST="deny"
-#      - export WITH_GAPPS=true
+      - export BUILD_USERNAME="queen"
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build RR for sagit Started!"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Build RROS for X00TD Started! https://cirrus-ci.com/github/texascake/cirrus-ci"
       - ./collect.sh
-#      - ./final.sh
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/sagit/ && ls RR*.zip) Completed!"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Build $(cd ~/rom/out/target/product/X00TD/ && ls RROS-*.zip) Completed!"
 
   Upload_script:
       - ./upload.sh
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Compres ccache"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Compress ccache"
       - ./ziping.sh
       - cd ~/
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading ccache...."
-      - rclone copy ccache.tar.gz sagit:rr -P
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Ccache Uploaded Successfully!"
-
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="📤 Uploading ccache...."
+      - rclone copy ccache.tar.gz Gdrive:rr -P
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Ccache Uploaded Successfully!"
