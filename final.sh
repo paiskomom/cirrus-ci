@@ -1,4 +1,5 @@
 #!/bin/bash
+
 cd ~/rom
 
 . build/envsetup.sh
