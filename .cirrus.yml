@@ -1,7 +1,7 @@
 env:
     credentials: "ENCRYPTED[4f2ed4bc06ea9b13426d3c2b0a32d822540042f7e18eab0ab30efe538432dd1b2d06b90466747f0fd2d80bdd34375f3b]"
     rcloneconfig: "ENCRYPTED[ec7734e8b495e026a95409b8984a158aaa5c9db4dc96b5eca607b136703832e9a5de80b7649074444bd2ec12ebd095ff]"
-    tokentl: "ENCRYPTED[a8aa40402772f43e95029acb93f7a44b4fc40f7373f139a06dc0c391669a5eae6c5dc03757bffefe7383835fc7435f7f]"
+    tokentl: "ENCRYPTED[7f0fff280bea74376f06d5afa598b2cde7ecb26d69cd0110bd643650e598881db17a748f6ab2de3b5b2618a2c556b9ef]"
     idtl: "ENCRYPTED[42cb9faf4997416a70db03d11f38e113a010f786145c968803c25b3cb635175a40df439edb1ab89b58febeb9900befc2]"
     lunch: lunch aosp_X00TD-userdebug
     make: m aex
