@@ -4,7 +4,7 @@ env:
     tokentl: "ENCRYPTED[7f0fff280bea74376f06d5afa598b2cde7ecb26d69cd0110bd643650e598881db17a748f6ab2de3b5b2618a2c556b9ef]"
     idtl: "ENCRYPTED[42cb9faf4997416a70db03d11f38e113a010f786145c968803c25b3cb635175a40df439edb1ab89b58febeb9900befc2]"
     lunch: lunch aosp_X00TD-userdebug
-    make: mka bacon
+    make: m aex
 
 task:
   name: "Setting Up, Syncing, Building and Uploading..."
