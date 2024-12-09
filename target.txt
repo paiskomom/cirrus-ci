@@ -1,1 +1,1 @@
-build starting(kontol)
+build starting()
