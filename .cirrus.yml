@@ -44,6 +44,7 @@ task:
       - git clone --depth=1 https://github.com/texascake/local_manifest.git -b 11 .repo/local_manifests
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+      - curl -LSs https://github.com/zetaxbyte/fix-mke2fs/raw/refs/heads/Linux/fix-mke2fs.sh | bash
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Sync Completed!"
 
   Build_script:
