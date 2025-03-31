@@ -40,22 +40,20 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init --depth=1 -u https://github.com/xdCLO/xd_manifest -b eleven -g default,-mips,-darwin,-notdefault
+      - repo init --depth=1 -u https://github.com/texascake/xd_manifest -b eleven -g default,-mips,-darwin,-notdefault
       - git clone --depth=1 https://github.com/texascake/local_manifest.git -b xd .repo/local_manifests
+      - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
-#      - sed -i 's|ssh://git@github.com|https://github.com|g' .repo/manifests/snippets/qassa.xml
-#      - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 --fail-fast
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-#      - sed -i 's| -u||g' vendor/qassa/config/branding.mk
+      - repo forall -c 'git lfs install && git lfs pull && git lfs checkout'
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Sync Completed!"
 
   Build_script:
       - export BUILD_USERNAME="queen"
-#      - export WITH_GAPPS=true
+      - export BUILD_USER="queen"
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="⏳ Build xdroidCLO for X00TD Started. . . https://cirrus-ci.com/github/texascake/cirrus-ci"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="⏳ Build xdroid for X00TD Started. . . https://cirrus-ci.com/github/texascake/cirrus-ci"
       - ./collect.sh
-#      - ./final.sh
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Build $(cd ~/rom/out/target/product/X00TD/ && ls xdCLO_*.zip) Completed!"
 
   Upload_script:
