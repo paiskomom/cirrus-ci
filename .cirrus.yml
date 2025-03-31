@@ -35,7 +35,7 @@ task:
       - ./w.sh
 
   Sync_script:
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🔄 Start sync xdroidCLO Source. . ."
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🔄 Start sync xdCLO Source. . ."
       - mkdir -p ~/rom
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
@@ -52,13 +52,13 @@ task:
       - export BUILD_USERNAME="queen"
       - export BUILD_USER="queen"
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="⏳ Build xdroid for X00TD Started. . . https://cirrus-ci.com/github/texascake/cirrus-ci"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="⏳ Build Started. . . https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
       - ./collect.sh
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Build $(cd ~/rom/out/target/product/X00TD/ && ls xdCLO_*.zip) Completed!"
 
   Upload_script:
       - ./upload.sh
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Compressing ccache"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ re-Compressing ccache"
       - ./ziping.sh
       - cd ~/
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="📤 Uploading ccache...."
