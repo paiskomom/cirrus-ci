@@ -3,7 +3,7 @@ env:
     rcloneconfig: "ENCRYPTED[ec7734e8b495e026a95409b8984a158aaa5c9db4dc96b5eca607b136703832e9a5de80b7649074444bd2ec12ebd095ff]"
     tokentl: "ENCRYPTED[4831f48cbdfe4eb5e1638bab74422e6a4ae07d1daf9943f5e29d43687bbe9ee06751d71edb1ae64b6cd9f981181485db]"
     idtl: "ENCRYPTED[!8eec5522469aa9ad7ea0bfba27c196f44974bac170e1e2402a4163715c533b4cbe5c6ea326ebb772702fbbf9e8c602f9!]"
-    lunch: lunch nad_X00T-user
+    lunch: lunch nad_X00T-userdebug
     make: mka nad
 
 task:
@@ -40,7 +40,7 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init -u https://github.com/texascake/android_manifest_nusa -b q
+      - repo init -u https://github.com/texascake/android_manifest_nusa -b ten
       - git clone --depth 1 https://github.com/texascake/local_manifest -b nad-sixty .repo/local_manifests
       - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
