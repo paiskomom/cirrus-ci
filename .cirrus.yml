@@ -3,7 +3,7 @@ env:
     rcloneconfig: "ENCRYPTED[ec7734e8b495e026a95409b8984a158aaa5c9db4dc96b5eca607b136703832e9a5de80b7649074444bd2ec12ebd095ff]"
     tokentl: "ENCRYPTED[4831f48cbdfe4eb5e1638bab74422e6a4ae07d1daf9943f5e29d43687bbe9ee06751d71edb1ae64b6cd9f981181485db]"
     idtl: "ENCRYPTED[e0f6a035b67c0c702245d7f49ae3a29c7cd548c1ec498ea7e323928954e7bb7e915a1d314e7ae812005fa77718c1827d]"
-    lunch: lunch rr_X00TD-user
+    lunch: lunch rr_X00TD-userdebug
     make: mka bacon
 
 task:
@@ -40,16 +40,18 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init --depth=1 --no-repo-verify -u https://github.com/ResurrectionRemix/platform_manifest.git -b Q -g default,-mips,-darwin,-notdefault
-      - git clone --depth 1 https://github.com/strongreasons/local_manifest.git -b rr .repo/local_manifests
+      - repo init -u https://github.com/strongreasons/platform_manifest -b Q
+      - git clone --depth 1 https://github.com/strongreasons/local_manifest -b rr .repo/local_manifests
+      - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+      - repo forall -c 'git lfs install && git lfs pull && git lfs checkout'
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Sync Completed!"
 
   Build_script:
       - export BUILD_USERNAME="queen"
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Build RROS for X00TD Started! https://cirrus-ci.com/github/texascake/cirrus-ci"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Build RROS for X00TD Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
       - ./collect.sh
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Build $(cd ~/rom/out/target/product/X00TD/ && ls RROS-*.zip) Completed!"
 
