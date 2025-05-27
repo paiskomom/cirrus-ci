@@ -1,6 +1,6 @@
 env:
     credentials: "ENCRYPTED[4f2ed4bc06ea9b13426d3c2b0a32d822540042f7e18eab0ab30efe538432dd1b2d06b90466747f0fd2d80bdd34375f3b]"
-    rcloneconfig: "ENCRYPTED[ec7734e8b495e026a95409b8984a158aaa5c9db4dc96b5eca607b136703832e9a5de80b7649074444bd2ec12ebd095ff]"
+    rcloneconfig: "ENCRYPTED[669c2c6a0d9d99662fde2b937b59f6ef0a10bb24a7e45152d404f1965277237fabf4a4ba7f708e5c3ffa3f777eaf3edf]"
     tokentl: "ENCRYPTED[4831f48cbdfe4eb5e1638bab74422e6a4ae07d1daf9943f5e29d43687bbe9ee06751d71edb1ae64b6cd9f981181485db]"
     idtl: "ENCRYPTED[!8eec5522469aa9ad7ea0bfba27c196f44974bac170e1e2402a4163715c533b4cbe5c6ea326ebb772702fbbf9e8c602f9!]"
     lunch: lunch nad_X00T-userdebug
@@ -23,7 +23,7 @@ task:
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - mkdir -p ~/ccache
-       - rclone copy Gdrive:nad/ccache.tar.gz ~/ -P
+       - rclone copy Gdrive:Nusantara/ccache.tar.gz ~/ -P
        - cd ~/
        - time tar xf ccache.tar.gz
        - cd ~/
@@ -63,5 +63,5 @@ task:
       - ./ziping.sh
       - cd ~/
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="📤 Uploading ccache...."
-      - rclone copy ccache.tar.gz Gdrive:nad -P
+      - rclone copy ccache.tar.gz Gdrive:Nusantara -P
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ ccache Uploaded Successfully!"
