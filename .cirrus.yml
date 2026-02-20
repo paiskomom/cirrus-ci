@@ -3,8 +3,8 @@ env:
     rcloneconfig: "ENCRYPTED[b440ef7052bf6e41d5d2ecc1cd52cb61c7d239d408ab775185f00162824b8c6dcd59c438d655f33c306c1d670df554f3]"
     tokentl: "ENCRYPTED[317cd6ee0bbf667687c38fc2fbd575a4a334580b538e9df2e367e34bdef0554864ab76e307e3019a6d1aa1b5ae691dff]"
     idtl: "ENCRYPTED[698e1be9dd591db191e8975b72264a85173fe850b81022d399592102aa99d387d7dcdfa5fb9517ae91826e492176058e]"
-    lunch: lunch qassa_X00T-userdebug
-    make: mka qassa
+    lunch: lunch rr_whyred-userdebug
+    make: mka bacon
 
 task:
   name: "Setting Up, Syncing, Building and Uploading..."
@@ -40,14 +40,12 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init -q --no-repo-verify --depth=1 -u https://github.com/keepQASSA/manifest.git -b Q
-      - git clone --depth 1 https://github.com/texascake/local_manifest.git -b qassa .repo/local_manifests
+      - repo init -q --no-repo-verify --depth=1 -u https://github.com/ResurrectionRemix/platform_manifest.git -b Q
+      - git clone --depth 1 https://github.com/paiskomom/local_manifest.git -b rr .repo/local_manifests
       - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
-      - sed -i 's|ssh://git@github.com|https://github.com|g' .repo/manifests/snippets/qassa.xml
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
       - repo forall -c 'git lfs install && git lfs pull && git lfs checkout'
-      - sed -i 's| -u||g' vendor/qassa/config/branding.mk
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Sync Completed!"
 
   Build_script:
