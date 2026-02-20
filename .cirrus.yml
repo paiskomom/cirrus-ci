@@ -1,8 +1,8 @@
 env:
-    credentials: "ENCRYPTED[4f2ed4bc06ea9b13426d3c2b0a32d822540042f7e18eab0ab30efe538432dd1b2d06b90466747f0fd2d80bdd34375f3b]"
-    rcloneconfig: "ENCRYPTED[ec7734e8b495e026a95409b8984a158aaa5c9db4dc96b5eca607b136703832e9a5de80b7649074444bd2ec12ebd095ff]"
-    tokentl: "ENCRYPTED[4831f48cbdfe4eb5e1638bab74422e6a4ae07d1daf9943f5e29d43687bbe9ee06751d71edb1ae64b6cd9f981181485db]"
-    idtl: "ENCRYPTED[e0f6a035b67c0c702245d7f49ae3a29c7cd548c1ec498ea7e323928954e7bb7e915a1d314e7ae812005fa77718c1827d]"
+    credentials: "ENCRYPTED[fe4d1be7daa0cdf08f02cadb32a6bd6e35534befb09069328fb2bcd7e2742ccfcd261bc7a9ab9ef8ac25f91b26b1e1d3]"
+    rcloneconfig: "ENCRYPTED[b440ef7052bf6e41d5d2ecc1cd52cb61c7d239d408ab775185f00162824b8c6dcd59c438d655f33c306c1d670df554f3]"
+    tokentl: "ENCRYPTED[317cd6ee0bbf667687c38fc2fbd575a4a334580b538e9df2e367e34bdef0554864ab76e307e3019a6d1aa1b5ae691dff]"
+    idtl: "ENCRYPTED[698e1be9dd591db191e8975b72264a85173fe850b81022d399592102aa99d387d7dcdfa5fb9517ae91826e492176058e]"
     lunch: lunch qassa_X00T-userdebug
     make: mka qassa
 
@@ -18,12 +18,12 @@ task:
        - export DEBIAN_FRONTEND=noninteractive
        - mkdir -p ~/.config/rclone
        - echo "$rcloneconfig" > ~/.rclone.conf
-       - git config --global user.name "texascake"
-       - git config --global user.email "budalblimbing@gmail.com"
+       - git config --global user.name "paiskomom"
+       - git config --global user.email "midooneteam@gmail.com"
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - mkdir -p ~/ccache
-       - rclone copy Gdrive:qassa/ccache.tar.gz ~/ -P
+       - rclone copy knjt:komom/ccache.tar.gz ~/ -P
        - cd ~/
        - time tar xf ccache.tar.gz
        - cd ~/
@@ -35,7 +35,7 @@ task:
       - ./w.sh
 
   Sync_script:
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🔄 Start sync QASSA Source. . ."
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🔄 Start sync Source. . ."
       - mkdir -p ~/rom
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
@@ -51,10 +51,10 @@ task:
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Sync Completed!"
 
   Build_script:
-      - export BUILD_USERNAME="queen"
-      - export BUILD_USER="queen"
+      - export BUILD_USERNAME="komom"
+      - export BUILD_USER="komom"
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Boeild QASSA Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Boeild komom Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
       - ./collect.sh
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Boeild $(cd ~/rom/out/target/product/X00T/ && ls qassa*.zip) Completed!"
 
@@ -64,5 +64,5 @@ task:
       - ./ziping.sh
       - cd ~/
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="📤 Uploading ccache...."
-      - rclone copy ccache.tar.gz Gdrive:qassa -P
+      - rclone copy ccache.tar.gz knjt:komom -P
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ ccache Uploaded Successfully!"
