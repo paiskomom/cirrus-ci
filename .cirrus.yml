@@ -1,9 +1,9 @@
 env:
     credentials: "ENCRYPTED[fe4d1be7daa0cdf08f02cadb32a6bd6e35534befb09069328fb2bcd7e2742ccfcd261bc7a9ab9ef8ac25f91b26b1e1d3]"
     rcloneconfig: "ENCRYPTED[b440ef7052bf6e41d5d2ecc1cd52cb61c7d239d408ab775185f00162824b8c6dcd59c438d655f33c306c1d670df554f3]"
-    tokentl: "ENCRYPTED[317cd6ee0bbf667687c38fc2fbd575a4a334580b538e9df2e367e34bdef0554864ab76e307e3019a6d1aa1b5ae691dff]"
-    idtl: "ENCRYPTED[698e1be9dd591db191e8975b72264a85173fe850b81022d399592102aa99d387d7dcdfa5fb9517ae91826e492176058e]"
-    lunch: lunch rr_whyred-userdebug
+    tokentl: "ENCRYPTED[0cb207ada20cce10b69db7741b8f8297144bff019b64bfb83d2b2c9176d0697dbc6c0e3d794da10e04f6970df3cd39d0]"
+    idtl: "ENCRYPTED[0d530857740d6512872d944d2d23e533cac12c3d168a0dfe11ef4c1f5a470075c929383dee3e77596917ef3fa05395a8]"
+    lunch: lunch rr_whyred-user
     make: mka bacon
 
 task:
@@ -54,7 +54,7 @@ task:
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Boeild komom Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
       - ./collect.sh
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Boeild $(cd ~/rom/out/target/product/X00T/ && ls qassa*.zip) Completed!"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Boeild $(cd ~/rom/out/target/product/whyred/ && ls qassa*.zip) Completed!"
 
   Upload_script:
       - ./upload.sh
