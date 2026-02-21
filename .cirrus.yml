@@ -1,6 +1,6 @@
 env:
     credentials: "ENCRYPTED[fe4d1be7daa0cdf08f02cadb32a6bd6e35534befb09069328fb2bcd7e2742ccfcd261bc7a9ab9ef8ac25f91b26b1e1d3]"
-    rcloneconfig: "ENCRYPTED[c2e7c692712ed84fcb95ffd7edecadcfbc4e70e5ecf8305622cae9babfbc1c7806febca217f5725472728f1e5afdf99f]"
+    rcloneconfig_b64: "ENCRYPTED[b7a6c18395e584afdbc9895f7bda570c5e7dc8724a9df97c5281f524b6e8b9a4abcca3da3b08c922e95cab387a3e699c]"
     tokentl: "ENCRYPTED[0cb207ada20cce10b69db7741b8f8297144bff019b64bfb83d2b2c9176d0697dbc6c0e3d794da10e04f6970df3cd39d0]"
     idtl: "ENCRYPTED[0d530857740d6512872d944d2d23e533cac12c3d168a0dfe11ef4c1f5a470075c929383dee3e77596917ef3fa05395a8]"
     lunch: lunch rr_whyred-user
@@ -17,7 +17,7 @@ task:
   Build-Env-Setup_background_script:
        - export DEBIAN_FRONTEND=noninteractive
        - mkdir -p ~/.config/rclone
-       - echo "$rcloneconfig" > ~/.rclone.conf
+       - echo "$rcloneconfig_b64" > ~/.rclone.conf
        - git config --global user.name "paiskomom"
        - git config --global user.email "midooneteam@gmail.com"
        - echo "$credentials" > ~/.git-credentials
