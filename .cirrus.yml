@@ -3,7 +3,7 @@ env:
     rcloneconfig_b64: "ENCRYPTED[b7a6c18395e584afdbc9895f7bda570c5e7dc8724a9df97c5281f524b6e8b9a4abcca3da3b08c922e95cab387a3e699c]"
     tokentl: "ENCRYPTED[0cb207ada20cce10b69db7741b8f8297144bff019b64bfb83d2b2c9176d0697dbc6c0e3d794da10e04f6970df3cd39d0]"
     idtl: "ENCRYPTED[0d530857740d6512872d944d2d23e533cac12c3d168a0dfe11ef4c1f5a470075c929383dee3e77596917ef3fa05395a8]"
-    lunch: lunch rr_whyred-userdebug
+    lunch: lunch rr_whyred-user
     make: mka bacon
 
 task:
