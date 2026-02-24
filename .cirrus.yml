@@ -40,7 +40,7 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init -q --no-repo-verify --depth=1 -u https://github.com/ResurrectionRemix/platform_manifest.git -b Q
+      - repo init -q --no-repo-verify --depth=1 -u https://github.com/ResurrectionRemix-Revived/manifest -b Q
       - git clone --depth 1 https://github.com/paiskomom/local_manifest.git -b rr .repo/local_manifests
       - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
@@ -49,8 +49,8 @@ task:
       - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Sync Completed!"
 
   Build_script:
-      - export BUILD_USERNAME="komom"
-      - export BUILD_USER="komom"
+      - export BUILD_USERNAME="hunk"
+      - export BUILD_USER="hunk"
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
       - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Boeild komom Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
       - ./collect.sh
