@@ -1,25 +1,66 @@
-task:
-  name: "Test Environment Docker Baru"
-  timeout_in: 5m
-  container:
-      image: memedo/paiskomom:knjt
-      cpu: 2
-      memory: 4G
+env:
+    credentials: "ENCRYPTED[fe4d1be7daa0cdf08f02cadb32a6bd6e35534befb09069328fb2bcd7e2742ccfcd261bc7a9ab9ef8ac25f91b26b1e1d3]"
+    rcloneconfig_b64: "ENCRYPTED[b7a6c18395e584afdbc9895f7bda570c5e7dc8724a9df97c5281f524b6e8b9a4abcca3da3b08c922e95cab387a3e699c]"
+    tokentl: "ENCRYPTED[0cb207ada20cce10b69db7741b8f8297144bff019b64bfb83d2b2c9176d0697dbc6c0e3d794da10e04f6970df3cd39d0]"
+    idtl: "ENCRYPTED[0d530857740d6512872d944d2d23e533cac12c3d168a0dfe11ef4c1f5a470075c929383dee3e77596917ef3fa05395a8]"
+    lunch: lunch rr_whyred-user
+    make: m bacon
 
-  Check_System_script:
-      - echo "Mengetes Environment Docker..."
-      - echo "1. Mengecek Direktori Saat Ini (Harusnya /home/cirrus):"
-      - pwd
-      - echo "2. Mengecek User Aktif (Harusnya cirrus):"
-      - whoami
-      - echo "3. Mengecek instalasi alat (pigz, git-lfs, tar):"
-      - pigz --version
-      - git-lfs --version
-      - tar --version
-      - echo "4. Mengetes simulasi kompresi ccache (seperti di ziping.sh):"
-      - mkdir -p /home/cirrus/ccache
-      - touch /home/cirrus/ccache/dummy.txt
-      - cd /home/cirrus
-      - tar --use-compress-program="pigz -k -1 " -cf ccache.tar.gz ccache
-      - ls -lh ccache.tar.gz
-      - echo "✅ TES SELESAI DAN SUKSES!"
+task:
+  name: "Setting Up, Syncing, Building and Uploading..."
+  timeout_in: 480m
+  container:
+      image: inok2341/anu:latest
+      cpu: 8
+      memory: 32G
+
+  Build-Env-Setup_background_script:
+       - export DEBIAN_FRONTEND=noninteractive
+       - mkdir -p ~/.config/rclone
+       - echo "$rcloneconfig_b64" | base64 -d > ~/.config/rclone/rclone.conf
+       - git config --global user.name "paiskomom"
+       - git config --global user.email "midooneteam@gmail.com"
+       - echo "$credentials" > ~/.git-credentials
+       - git config --global credential.helper store --file=~/.git-credentials
+       - mkdir -p ~/ccache
+       - rclone copy knjt:komom/ccache.tar.gz ~/ -P
+       - cd ~/
+       - time tar xf ccache.tar.gz
+       - cd ~/
+
+  Storage-Checker_background_script:
+      - df -h
+      - lsblk
+      - ls -l -a -h
+      - ./w.sh
+
+  Sync_script:
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="🔄 Start sync Source. . ."
+      - mkdir -p ~/rom
+      - cd ~/rom
+      - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
+      - sudo chmod a+rx /usr/local/bin/repoo
+      - repo init -q --no-repo-verify --depth=1 -u https://github.com/ResurrectionRemix-Revived/manifest -b Q
+      - git clone --depth 1 https://github.com/paiskomom/local_manifest.git -b rr .repo/local_manifests
+      - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
+      - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
+      - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+      - repo forall -c 'git lfs install && git lfs pull && git lfs checkout'
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Sync Completed!"
+
+  Build_script:
+      - export BUILD_USERNAME="hunk"
+      - export BUILD_USER="hunk"
+      - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Boeild komom Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
+      - ./collect.sh
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Boeild $(cd ~/rom/out/target/product/whyred/ && ls qassa*.zip) Completed!"
+
+  Upload_script:
+      - ./upload.sh
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="📮 Compressing ccache...."
+      - ./ziping.sh
+      - cd ~/
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="📤 Uploading ccache...."
+      - rclone copy ccache.tar.gz knjt:komom -P
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="✅ ccache Uploaded Successfully!"
