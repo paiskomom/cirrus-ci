@@ -40,7 +40,7 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init -q --no-repo-verify --depth=1 -u https://github.com/strongreasons/platform_manifest -b Q
+      - repo init -q --no-repo-verify --depth=1 -u https://github.com/paiskomom/platform_manifest -b Q
       - git clone --depth 1 https://github.com/paiskomom/local_manifest.git -b rr .repo/local_manifests
       - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
