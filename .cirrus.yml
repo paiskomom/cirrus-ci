@@ -23,15 +23,17 @@ task:
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - mkdir -p ~/ccache
-       - rclone copy knjt:kemem/ccache.tar.gz ~/ -P
+       # Abaikan error jika ccache.tar.gz belum ada di Rclone
+       - rclone copy knjt:kemem/ccache.tar.gz ~/ -P || true
        - cd ~/
-       - time tar xf ccache.tar.gz
+       - if [ -f ccache.tar.gz ]; then time tar xf ccache.tar.gz; fi
        - cd ~/
 
   Storage-Checker_background_script:
       - df -h
       - lsblk
       - ls -l -a -h
+      - chmod +x w.sh
       - ./w.sh
 
   Sync_script:
@@ -55,10 +57,12 @@ task:
       - export BUILD_USER="ubuntu"
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
       - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="🛠️ Boeild komom Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
-      - ./collect.sh
-      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="✅ Boeild $(cd ~/rom/out/target/product/whyred/ && ls lineage*.zip) Completed!"
+      - chmod +x collect.sh
+      - ./final.sh
+      - echo "Fase build (atau cicilan build) selesai."
 
   Upload_script:
+      - chmod +x upload.sh ziping.sh
       - ./upload.sh
       - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="📮 Compressing ccache...."
       - ./ziping.sh
